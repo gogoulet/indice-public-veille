@@ -1,47 +1,56 @@
 [
   {
-    "id": "us-12",
+    "id": "us-110-hconres-12",
     "region": "États-Unis",
     "number": "HCONRES 12",
     "title": "Requiring the display of the Ten Commandments in the United States Capitol.",
     "adopted_date": "2024-02-07",
-    "summary": "Dernière action : Sponsor introductory remarks on measure. (CR E22-23)",
-    "url": "https://api.congress.gov/v3/bill/110/hconres/12?format=json"
+    "summary": "Dernière action officielle : Sponsor introductory remarks on measure. (CR E22-23)",
+    "url": "https://www.congress.gov/bill/110th-congress/house-concurrent-resolution/12"
   },
   {
-    "id": "us-22",
+    "id": "us-110-hconres-22",
     "region": "États-Unis",
     "number": "HCONRES 22",
     "title": "Expressing the sense of Congress that the President should provide notice of withdrawal of the United States from the North American Free Trade Agreement (NAFTA).",
     "adopted_date": "2024-02-07",
-    "summary": "Dernière action : Referred to the Subcommittee on Trade.",
-    "url": "https://api.congress.gov/v3/bill/110/hconres/22?format=json"
+    "summary": "Dernière action officielle : Referred to the Subcommittee on Trade.",
+    "url": "https://www.congress.gov/bill/110th-congress/house-concurrent-resolution/22"
   },
   {
-    "id": "us-20",
+    "id": "us-110-hconres-20",
     "region": "États-Unis",
     "number": "HCONRES 20",
     "title": "Calling on the Government of the United Kingdom to immediately establish a full, independent, and public judicial inquiry into the murder of Northern Ireland defense attorney Patrick Finucane, as recommended by Judge Peter Cory as part of the Weston Park Agreement, in order to move forward on the Northern Ireland peace process.",
     "adopted_date": "2025-04-07",
-    "summary": "Dernière action : Message on Senate action sent to the House.",
-    "url": "https://api.congress.gov/v3/bill/110/hconres/20?format=json"
+    "summary": "Dernière action officielle : Message on Senate action sent to the House.",
+    "url": "https://www.congress.gov/bill/110th-congress/house-concurrent-resolution/20"
   },
   {
-    "id": "us-10",
+    "id": "us-110-hconres-10",
     "region": "États-Unis",
     "number": "HCONRES 10",
     "title": "Expressing the sense of the Congress that the tax give away since 2001 to the wealthiest 5 percent of Americans should be repealed and those monies instead invested in vital programs to relieve the growing burden on the working poor and to alleviate poverty in America.",
     "adopted_date": "2024-02-07",
-    "summary": "Dernière action : Sponsor introductory remarks on measure. (CR H4200)",
-    "url": "https://api.congress.gov/v3/bill/110/hconres/10?format=json"
+    "summary": "Dernière action officielle : Sponsor introductory remarks on measure. (CR H4200)",
+    "url": "https://www.congress.gov/bill/110th-congress/house-concurrent-resolution/10"
   },
   {
-    "id": "us-2",
+    "id": "us-110-hconres-2",
     "region": "États-Unis",
     "number": "HCONRES 2",
     "title": "Expressing the sense of the Congress that children in the United States should understand and appreciate the contributions of individuals from the territories of the United States and the contributions of such individuals in United States history.",
     "adopted_date": "2026-09-08",
-    "summary": "Dernière action : Received in the Senate and referred to the Committee on Energy and Natural Resources.",
-    "url": "https://api.congress.gov/v3/bill/110/hconres/2?format=json"
+    "summary": "Dernière action officielle : Received in the Senate and referred to the Committee on Energy and Natural Resources.",
+    "url": "https://www.congress.gov/bill/110th-congress/house-concurrent-resolution/2"
+  },
+  {
+    "id": "sa-fallback-1",
+    "region": "Amérique du Sud",
+    "number": "Lei Nº 14.812",
+    "title": "Marco Legal de Transparência e Governança Pública",
+    "adopted_date": "2026-09-23",
+    "summary": "Loi cadre portant sur la numérisation des registres institutionnels et l'accès public à l'information.",
+    "url": "https://www.in.gov.br/"
   }
 ]
