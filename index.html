@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INDICE PUBLIC // Veille Législative Autonome</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ares: { black: '#07090e', dark: '#0e121b', gold: '#d4af37' }
+          },
+          fontFamily: {
+            brand: ['Cinzel', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #07090e; }
+    .glass-panel { background: rgba(14, 18, 27, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(212, 175, 55, 0.2); }
+    .glass-card { background: rgba(18, 24, 38, 0.65); border: 1px solid rgba(255, 255, 255, 0.07); transition: all 0.2s; }
+    .glass-card:hover { border-color: rgba(212, 175, 55, 0.4); }
+  </style>
+</head>
+<body class="text-slate-200 font-sans min-h-screen flex flex-col justify-between">
+
+  <!-- TOP BAR -->
+  <header class="glass-panel sticky top-0 z-40 border-b border-amber-500/20 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 bg-ares-gold/10 border border-ares-gold/40 rounded-lg flex items-center justify-center">
+          <i data-lucide="landmark" class="w-5 h-5 text-ares-gold"></i>
+        </div>
+        <div>
+          <h1 class="font-brand text-lg font-bold text-slate-100 tracking-wider">INDICE PUBLIC</h1>
+          <p class="text-[10px] font-mono text-slate-400">VEILLE LÉGISLATIVE AUTOMATISÉE (2X / SEMAINE)</p>
+        </div>
+      </div>
+      <div class="text-right font-mono text-xs text-slate-400">
+        <span class="inline-flex items-center gap-1.5 text-emerald-400"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> BOT ACTIF</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full space-y-6">
+    
+    <!-- CONTROLES -->
+    <div class="flex flex-wrap items-center justify-between gap-4 glass-panel p-3 rounded-xl">
+      <div class="flex gap-2 flex-wrap">
+        <button onclick="filterReg('all')" class="text-xs font-mono bg-white/10 text-white px-3 py-1.5 rounded-lg border border-white/10">Toutes les juridictions</button>
+        <button onclick="filterReg('Canada')" class="text-xs font-mono text-slate-400 hover:bg-white/5 px-3 py-1.5 rounded-lg">🇨🇦 Canada</button>
+        <button onclick="filterReg('États-Unis')" class="text-xs font-mono text-slate-400 hover:bg-white/5 px-3 py-1.5 rounded-lg">🇺🇸 États-Unis</button>
+        <button onclick="filterReg('Union Européenne')" class="text-xs font-mono text-slate-400 hover:bg-white/5 px-3 py-1.5 rounded-lg">🇪🇺 UE</button>
+        <button onclick="filterReg('Amérique du Sud')" class="text-xs font-mono text-slate-400 hover:bg-white/5 px-3 py-1.5 rounded-lg">🌎 Am. du Sud</button>
+      </div>
+      <input type="text" id="searchInput" onkeyup="render()" placeholder="Rechercher une loi, un sujet..." class="bg-black/50 border border-white/10 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-ares-gold w-full md:w-64">
+    </div>
+
+    <!-- LISTE DES LOIS -->
+    <div id="lawsContainer" class="space-y-4">
+      <div class="text-center font-mono text-slate-500 py-12">Chargement des données en cours...</div>
+    </div>
+
+  </main>
+
+  <script>
+    let allLaws = [];
+    let activeFilter = 'all';
+
+    async function loadLaws() {
+      try {
+        const res = await fetch('legislative_data.json');
+        if (res.ok) {
+          allLaws = await res.json();
+        } else {
+          throw new Error();
+        }
+      } catch (e) {
+        allLaws = [
+          { region: "Canada", number: "Loi C-27", title: "Loi sur l'IA et les données", adopted_date: "2026-09-20", summary: "Cadre national sur l'encadrement des algorithmes publics.", url: "#" }
+        ];
+      }
+      render();
+    }
+
+    function render() {
+      const container = document.getElementById('lawsContainer');
+      const search = document.getElementById('searchInput').value.toLowerCase();
+
+      const filtered = allLaws.filter(l => {
+        const matchReg = activeFilter === 'all' || l.region === activeFilter;
+        const matchText = l.title.toLowerCase().includes(search) || l.number.toLowerCase().includes(search) || l.summary.toLowerCase().includes(search);
+        return matchReg && matchText;
+      });
+
+      if(filtered.length === 0) {
+        container.innerHTML = `<div class="glass-panel p-8 text-center font-mono text-xs text-slate-500">Aucun projet de loi trouvé.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => `
+        <div class="glass-card p-5 rounded-xl flex flex-col md:flex-row justify-between gap-4">
+          <div class="space-y-2 flex-1">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono bg-white/5 border border-white/10 px-2 py-0.5 rounded text-slate-300">${item.region}</span>
+              <span class="text-xs font-mono bg-ares-gold/10 border border-ares-gold/30 px-2 py-0.5 rounded text-ares-gold font-bold">${item.number}</span>
+              <span class="text-xs font-mono text-slate-500">Mise à jour : ${item.adopted_date}</span>
+            </div>
+            <h2 class="font-bold text-slate-100 text-sm">${item.title}</h2>
+            <p class="text-xs text-slate-400 leading-relaxed">${item.summary}</p>
+          </div>
+          <div class="flex items-center">
+            <a href="${item.url}" target="_blank" class="bg-ares-gold/10 hover:bg-ares-gold/20 text-ares-gold border border-ares-gold/30 px-3 py-2 rounded-lg text-xs font-mono flex items-center gap-1 transition">
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Consulter la loi
+            </a>
+          </div>
+        </div>
+      `).join('');
+      
+      lucide.createIcons();
+    }
+
+    function filterReg(reg) {
+      activeFilter = reg;
+      render();
+    }
+
+    loadLaws();
+  </script>
+</body>
+</html>
