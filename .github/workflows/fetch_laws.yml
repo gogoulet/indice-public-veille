@@ -2,9 +2,12 @@ name: Automation Veille Legislative Indice Public
 
 on:
   schedule:
-    # Exécution 2 fois par semaine : Mardi et Vendredi à 02:00 UTC
     - cron: '0 2 * * 2,5'
-  workflow_dispatch: # Permet de lancer la mise à jour manuellement si besoin
+  workflow_dispatch:
+
+# Autorise le script à commiter et pusher dans le dépôt
+permissions:
+  contents: write
 
 jobs:
   update-laws:
@@ -66,7 +69,7 @@ jobs:
           except Exception as e:
               print(f"Erreur États-Unis: {e}")
 
-          # Données de secours / América del Sur & UE si API indisponible
+          # Données de secours / Amérique du Sud & UE
           if len(laws_data) < 4:
               laws_data.extend([
                   {
@@ -89,16 +92,21 @@ jobs:
                   }
               ])
 
-          # Sauvegarde du fichier JSON consolidé
+          # Sauvegarde du fichier JSON
           with open("legislative_data.json", "w", encoding="utf-8") as f:
               json.dump(laws_data, f, ensure_ascii=False, indent=2)
 
-          print(f"Mise à jour réussie avec {len(laws_data)} textes législatifs.")
+          print(f"Mise à jour réussie avec {len(laws_data)} textes.")
           EOF
 
-      - name: Push des modifications sur le Dépôt GitHub
+      - name: Commit et Push des modifications
         run: |
-          git config --global user.name "IndicePublic-Bot"
-          git config --global user.email "bot@indicepublic.ca"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add legislative_data.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Mise à jour automatique de la veille législative" && git push)
+          if git diff --staged --quiet; then
+            echo "Aucun changement détecté dans legislative_data.json"
+          else
+            git commit -m "Mise à jour automatique des données législatives [skip ci]"
+            git push
+          fi
